@@ -16,4 +16,4 @@ app.get("/health", (req, res) => {
 
 app.use("/api/warranties", warrantyRoutes);
 
-module.exports = app;   // 🔴 THIS LINE FIXES YOUR ERROR
+module.exports = app;   // 🔴 
