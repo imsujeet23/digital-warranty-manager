@@ -11,11 +11,18 @@ export interface RegisterRequest {
 
 // User registration response from the API
 export interface RegisterResponse {
-  message: string;
-  user?: {
-    id: string;
-    email: string;
-  };
+  email: string;
+}
+
+// User login request payload
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+// User login response from the API
+export interface LoginResponse {
+  email: string;
 }
 
 // Warranty creation request payload

@@ -6,7 +6,13 @@
  */
 
 import { post } from './api';
-import { RegisterRequest, RegisterResponse, ApiResponse } from '@/types';
+import {
+  RegisterRequest,
+  RegisterResponse,
+  LoginRequest,
+  LoginResponse,
+  ApiResponse,
+} from '@/types';
 
 /**
  * Registers a new user account
@@ -29,6 +35,21 @@ export async function registerUser(
 ): Promise<ApiResponse<RegisterResponse>> {
   const payload: RegisterRequest = { email, password };
   return post<RegisterResponse>('/auth/register', payload);
+}
+
+/**
+ * Logs in an existing user account
+ *
+ * @param email - User's email address
+ * @param password - User's password
+ * @returns Promise with the login response
+ */
+export async function loginUser(
+  email: string,
+  password: string
+): Promise<ApiResponse<LoginResponse>> {
+  const payload: LoginRequest = { email, password };
+  return post<LoginResponse>('/auth/login', payload);
 }
 
 /**

@@ -5,7 +5,7 @@
  */
 
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, FileText, UserPlus } from 'lucide-react';
+import { Shield, FileText, UserPlus, LogIn } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavItemProps {
@@ -64,6 +64,12 @@ export function Header() {
               icon={<FileText className="h-4 w-4" />}
               label="Warranties"
               isActive={location.pathname === '/warranties' || location.pathname === '/'}
+            />
+            <NavItem
+              to="/login"
+              icon={<LogIn className="h-4 w-4" />}
+              label="Login"
+              isActive={location.pathname === '/login'}
             />
             <NavItem
               to="/register"
