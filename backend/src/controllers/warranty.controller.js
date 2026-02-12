@@ -13,9 +13,9 @@ const getUserFromRequest = async (req) => {
 
 exports.createWarranty = async (req, res) => {
   try {
-    const { productName, purchaseDate, warrantyMonths } = req.body;
+    const { productName, serialNumber, purchaseDate, warrantyMonths } = req.body;
 
-    if (!productName || !purchaseDate || !warrantyMonths) {
+    if (!productName || !serialNumber || !purchaseDate || !warrantyMonths) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -29,6 +29,7 @@ exports.createWarranty = async (req, res) => {
 
     const warranty = await Warranty.create({
       productName,
+      serialNumber,
       purchaseDate,
       warrantyMonths,
       expiryDate,

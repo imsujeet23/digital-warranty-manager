@@ -7,6 +7,12 @@ const Warranty = sequelize.define("Warranty", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  serialNumber: {
+    type: DataTypes.STRING,
+    // Keep nullable for existing records during schema evolution.
+    // New records are still validated in the controller.
+    allowNull: true,
+  },
   purchaseDate: {
     type: DataTypes.DATEONLY,
     allowNull: false,

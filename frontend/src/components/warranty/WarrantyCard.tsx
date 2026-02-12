@@ -5,7 +5,7 @@
  * and key information.
  */
 
-import { Package, Calendar, Clock, CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
+import { Package, Calendar, Clock, CheckCircle2, AlertTriangle, XCircle, Hash } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { WarrantyResponse } from '@/types';
 import { getWarrantyStatus, formatDate } from '@/services/warrantyService';
@@ -59,6 +59,10 @@ export function WarrantyCard({ warranty }: WarrantyCardProps) {
               </h3>
               <p className="text-sm text-muted-foreground mt-0.5">
                 {warranty.warrantyMonths} month warranty
+              </p>
+              <p className="text-sm text-muted-foreground mt-0.5 flex items-center gap-1">
+                <Hash className="h-3.5 w-3.5" />
+                Serial: {warranty.serialNumber || 'N/A'}
               </p>
             </div>
           </div>

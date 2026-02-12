@@ -28,6 +28,7 @@ export interface LoginResponse {
 // Warranty creation request payload
 export interface WarrantyRequest {
   productName: string;
+  serialNumber: string;
   purchaseDate: string; // ISO date string (YYYY-MM-DD)
   warrantyMonths: number;
 }
@@ -36,6 +37,7 @@ export interface WarrantyRequest {
 export interface WarrantyResponse {
   id?: string;
   productName: string;
+  serialNumber: string;
   purchaseDate: string;
   warrantyMonths: number;
   expiryDate: string; // Calculated by the backend

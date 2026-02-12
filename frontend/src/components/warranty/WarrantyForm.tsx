@@ -25,6 +25,7 @@ export const WarrantyForm = forwardRef<HTMLFormElement, WarrantyFormProps>(
   function WarrantyForm({ onWarrantyCreated }, ref) {
     // Form state
     const [productName, setProductName] = useState('');
+    const [serialNumber, setSerialNumber] = useState('');
     const [purchaseDate, setPurchaseDate] = useState('');
     const [warrantyMonths, setWarrantyMonths] = useState('');
 
@@ -39,6 +40,7 @@ export const WarrantyForm = forwardRef<HTMLFormElement, WarrantyFormProps>(
      */
     const resetForm = () => {
       setProductName('');
+      setSerialNumber('');
       setPurchaseDate('');
       setWarrantyMonths('');
       setErrors({});
@@ -54,7 +56,7 @@ export const WarrantyForm = forwardRef<HTMLFormElement, WarrantyFormProps>(
 
       // Validate input
       const monthsNum = parseInt(warrantyMonths, 10) || 0;
-      const validation = validateWarrantyInput(productName, purchaseDate, monthsNum);
+      const validation = validateWarrantyInput(productName, serialNumber, purchaseDate, monthsNum);
 
       if (!validation.isValid) {
         setErrors(validation.errors);
@@ -65,7 +67,7 @@ export const WarrantyForm = forwardRef<HTMLFormElement, WarrantyFormProps>(
       setIsLoading(true);
 
       try {
-        const result = await createWarranty(productName.trim(), purchaseDate, monthsNum);
+        const result = await createWarranty(productName.trim(), serialNumber.trim(), purchaseDate, monthsNum);
 
         if (result.success && result.data) {
           setSuccess(`Warranty for "${productName}" created successfully!`);
@@ -112,6 +114,19 @@ export const WarrantyForm = forwardRef<HTMLFormElement, WarrantyFormProps>(
           value={productName}
           onChange={(e) => setProductName(e.target.value)}
           error={errors.productName}
+          disabled={isLoading}
+          maxLength={100}
+        />
+
+        {/* Serial Number */}
+        <FormInput
+          id="serialNumber"
+          label="Product Serial Number"
+          type="text"
+          placeholder="e.g., SN-ABC123456"
+          value={serialNumber}
+          onChange={(e) => setSerialNumber(e.target.value)}
+          error={errors.serialNumber}
           disabled={isLoading}
           maxLength={100}
         />

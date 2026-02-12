@@ -24,11 +24,13 @@ import { WarrantyRequest, WarrantyResponse, ApiResponse } from '@/types';
  */
 export async function createWarranty(
   productName: string,
+  serialNumber: string,
   purchaseDate: string,
   warrantyMonths: number
 ): Promise<ApiResponse<WarrantyResponse>> {
   const payload: WarrantyRequest = {
     productName,
+    serialNumber,
     purchaseDate,
     warrantyMonths,
   };
@@ -55,6 +57,7 @@ export async function getWarranties(): Promise<ApiResponse<WarrantyResponse[]>> 
  */
 export function validateWarrantyInput(
   productName: string,
+  serialNumber: string,
   purchaseDate: string,
   warrantyMonths: number
 ): { isValid: boolean; errors: Record<string, string> } {
@@ -67,6 +70,15 @@ export function validateWarrantyInput(
     errors.productName = 'Product name must be at least 2 characters';
   } else if (productName.trim().length > 100) {
     errors.productName = 'Product name must be less than 100 characters';
+  }
+
+  // Validate serial number
+  if (!serialNumber || serialNumber.trim().length === 0) {
+    errors.serialNumber = 'Serial number is required';
+  } else if (serialNumber.trim().length < 3) {
+    errors.serialNumber = 'Serial number must be at least 3 characters';
+  } else if (serialNumber.trim().length > 100) {
+    errors.serialNumber = 'Serial number must be less than 100 characters';
   }
 
   // Validate purchase date
