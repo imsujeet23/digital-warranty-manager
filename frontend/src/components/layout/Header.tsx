@@ -4,9 +4,10 @@
  * Application header with navigation and branding.
  */
 
-import { Link, useLocation } from 'react-router-dom';
-import { Shield, FileText, UserPlus, LogIn } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Shield, FileText, UserPlus, LogIn, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { logoutUser, getCurrentUserEmail } from '@/services/authService';
 
 interface NavItemProps {
   to: string;
@@ -37,6 +38,13 @@ function NavItem({ to, icon, label, isActive }: NavItemProps) {
  */
 export function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const currentUserEmail = getCurrentUserEmail();
+
+  const handleLogout = () => {
+    logoutUser();
+    navigate('/login');
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
@@ -65,18 +73,31 @@ export function Header() {
               label="Warranties"
               isActive={location.pathname === '/warranties' || location.pathname === '/'}
             />
-            <NavItem
-              to="/login"
-              icon={<LogIn className="h-4 w-4" />}
-              label="Login"
-              isActive={location.pathname === '/login'}
-            />
-            <NavItem
-              to="/register"
-              icon={<UserPlus className="h-4 w-4" />}
-              label="Register"
-              isActive={location.pathname === '/register'}
-            />
+            {currentUserEmail ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors text-muted-foreground hover:text-foreground hover:bg-secondary"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            ) : (
+              <>
+                <NavItem
+                  to="/login"
+                  icon={<LogIn className="h-4 w-4" />}
+                  label="Login"
+                  isActive={location.pathname === '/login'}
+                />
+                <NavItem
+                  to="/register"
+                  icon={<UserPlus className="h-4 w-4" />}
+                  label="Register"
+                  isActive={location.pathname === '/register'}
+                />
+              </>
+            )}
           </nav>
         </div>
       </div>

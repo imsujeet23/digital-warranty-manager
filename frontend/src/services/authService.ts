@@ -53,6 +53,20 @@ export async function loginUser(
 }
 
 /**
+ * Returns the currently logged-in user's email from local storage.
+ */
+export function getCurrentUserEmail(): string | null {
+  return localStorage.getItem('currentUserEmail');
+}
+
+/**
+ * Logs out the current user by clearing local session state.
+ */
+export function logoutUser(): void {
+  localStorage.removeItem('currentUserEmail');
+}
+
+/**
  * Validates an email address format
  * 
  * @param email - Email address to validate

@@ -59,6 +59,7 @@ export default function LoginPage() {
       const result = await loginUser(email, password);
 
       if (result.success) {
+        localStorage.setItem('currentUserEmail', email);
         setSuccess(true);
         setTimeout(() => {
           navigate('/warranties');

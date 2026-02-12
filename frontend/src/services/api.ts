@@ -45,6 +45,11 @@ async function request<T>(
     ...options.headers,
   };
 
+  const currentUserEmail = localStorage.getItem('currentUserEmail');
+  if (currentUserEmail) {
+    headers['x-user-email'] = currentUserEmail;
+  }
+
   try {
     const response = await fetch(url, {
       ...options,

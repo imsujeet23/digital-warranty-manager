@@ -83,6 +83,7 @@ export default function RegisterPage() {
       const result = await registerUser(email, password);
 
       if (result.success) {
+        localStorage.setItem('currentUserEmail', email);
         setSuccess(true);
         // Redirect to warranties page after short delay
         setTimeout(() => {

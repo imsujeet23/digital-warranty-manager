@@ -5,20 +5,41 @@
  * warranties and view their existing warranty records.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Shield, Plus, Package } from 'lucide-react';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { WarrantyForm } from '@/components/warranty/WarrantyForm';
 import { WarrantyCard } from '@/components/warranty/WarrantyCard';
+import { AlertMessage } from '@/components/feedback/AlertMessage';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { WarrantyResponse } from '@/types';
+import { getWarranties } from '@/services/warrantyService';
 
 /**
  * WarrantiesPage is the main warranty management interface.
  */
 export default function WarrantiesPage() {
-  // Store warranties locally (in a real app, these would come from the API)
   const [warranties, setWarranties] = useState<WarrantyResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadWarranties = async () => {
+      setIsLoading(true);
+      setApiError(null);
+
+      const result = await getWarranties();
+      if (result.success && result.data) {
+        setWarranties(result.data);
+      } else {
+        setApiError(result.error?.message || 'Failed to load warranties');
+      }
+
+      setIsLoading(false);
+    };
+
+    loadWarranties();
+  }, []);
 
   /**
    * Handles newly created warranties
@@ -66,6 +87,12 @@ export default function WarrantiesPage() {
 
           {/* Warranties List */}
           <div>
+            {apiError && (
+              <AlertMessage type="error" className="mb-4">
+                {apiError}
+              </AlertMessage>
+            )}
+
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-foreground">
                 Your Warranties
@@ -77,7 +104,13 @@ export default function WarrantiesPage() {
               )}
             </div>
 
-            {warranties.length === 0 ? (
+            {isLoading ? (
+              <Card className="card-elevated">
+                <CardContent className="py-12 text-center text-sm text-muted-foreground">
+                  Loading warranties...
+                </CardContent>
+              </Card>
+            ) : warranties.length === 0 ? (
               /* Empty State */
               <Card className="card-elevated">
                 <CardContent className="py-12 text-center">
